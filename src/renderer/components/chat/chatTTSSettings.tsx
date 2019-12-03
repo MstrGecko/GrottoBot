@@ -38,7 +38,7 @@ export const ChatTTSSettings = ({
 }) => {
 
   const [tab, setTab] = React.useState('donations');
-  //const [selectedVoice,setSelectedVoice] = React.useState<IOption>();
+  const [selectedVoice,setSelectedVoice] = React.useState<IOption>();
   const [ttsAmplitude, setTTSAmplitude] =  React.useState<number>(config.tts_Amplitude ? config.tts_Amplitude : 86);
   const [ttsPitch, setTTSPitch] =  React.useState<number>(config.tts_Pitch ? config.tts_Pitch : 5);
   const [ttsSpeed, setTTSSpeed] =  React.useState<number>(config.tts_Speed ? config.tts_Speed : 175);
@@ -250,7 +250,7 @@ export const ChatTTSSettings = ({
                       utter.volume = ttsAmplitude / 100;
                       utter.pitch = ttsPitch / 100;
                       utter.rate = ttsSpeed / 100;
-                      //utter.voice = ttsVoice;
+                      utter.voice = ttsVoice;
                       utter.onend = () => {};
                       speechSynthesis.speak(utter);
                     }}
