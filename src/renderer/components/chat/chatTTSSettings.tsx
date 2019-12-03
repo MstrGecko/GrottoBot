@@ -16,7 +16,7 @@ import {
   PopupDialogInput
 } from '../generic-styled-components/popupDialog';
 import { Slider } from '../generic-styled-components/Slider';
-import { SelectWrap, selectStyles } from '../generic-styled-components/Select';
+import { SelectWrap, selectStyles,botSelectStyles } from '../generic-styled-components/Select';
 import { FaTimes } from 'react-icons/fa';
 import { getPhrase } from '@/renderer/helpers/lang';
 import { Button } from '../generic-styled-components/button';
@@ -24,6 +24,7 @@ import { IConfig, ISelectOption } from '@/renderer';
 import Select from 'react-select';
 import { updateConfig } from '@/renderer/helpers/rxConfig';
 import Toggle from 'react-toggle';
+import { indicatorSeparatorCSS } from 'react-select/src/components/indicators';
 
 /**
  * @description the popup for managing dlive accounts
@@ -37,11 +38,11 @@ export const ChatTTSSettings = ({
 }) => {
 
   const [tab, setTab] = React.useState('donations');
-
+  //const [selectedVoice,setSelectedVoice] = React.useState<IOption>();
   const [ttsAmplitude, setTTSAmplitude] =  React.useState<number>(config.tts_Amplitude ? config.tts_Amplitude : 86);
   const [ttsPitch, setTTSPitch] =  React.useState<number>(config.tts_Pitch ? config.tts_Pitch : 5);
   const [ttsSpeed, setTTSSpeed] =  React.useState<number>(config.tts_Speed ? config.tts_Speed : 175);
-
+  const [ttsVoice, setTTSVoice] =  React.useState<number>(config.tts_Voice ? config.tts_Voice : 1);
   const [hasTTSDonations, setHasTTSDonations] = React.useState<boolean>(
     !!config.hasTTSDonations
   );
@@ -52,12 +53,13 @@ export const ChatTTSSettings = ({
     ISelectOption<'LEMON' | 'ICE_CREAM' | 'DIAMOND' | 'NINJAGHINI' | 'NINJET'>[]
   >(config.allowedTTSDonations ? config.allowedTTSDonations : []);
 
+
   React.useEffect(() => {
     setHasTTSDonations(!!config.hasTTSDonations);
     setTTSAmplitude(config.tts_Amplitude ? config.tts_Amplitude : 86);
     setTTSPitch(config.tts_Pitch ? config.tts_Pitch : 5);
     setTTSSpeed(config.tts_Speed ? config.tts_Speed : 175);
-
+    setTTSVoice(config.tts_Voice ?config.tts_Voice : 1);
     setAllowedTTSDonations(
       config.allowedTTSDonations ? config.allowedTTSDonations : []
     );
@@ -101,13 +103,27 @@ export const ChatTTSSettings = ({
       ...config,
       tts_Amplitude: ttsAmplitude,
       tts_Pitch: ttsPitch,
-      tts_Speed: ttsSpeed
+      tts_Speed: ttsSpeed,
+      tts_Voice: ttsVoice
     }).catch(null);
   }
 
   const ttsTweakshasChanged = (): boolean => {
     return ttsAmplitude !== config?.tts_Amplitude || ttsPitch !== config?.tts_Pitch || ttsSpeed !== config?.tts_Speed;
   };
+
+  const getTTSVoicesList = (): Array<object> => {
+    var stupid = new SpeechSynthesis;// this is bad, and will probably cause a memory leak :/
+    var idiot = stupid.getVoices();
+    var Array voiceSort = [];
+    var Number i;
+    for (i = 0 ;i < (idiot.length - 1; i++) {
+       voiceSort[i]= {value: i ,display: idiot[i].name};
+      
+    }
+    return voiceSort;
+
+  }
 
   return (
     <PopupDialogBackground>
@@ -185,7 +201,7 @@ export const ChatTTSSettings = ({
                         { label: 'Lemon', value: 'LEMON' },
                         { label: 'Ice Cream', value: 'ICE_CREAM' },
                         { label: 'Diamond', value: 'DIAMOND' },
-                        { label: 'Ninjaghini', value: 'NINJAGHINI' },
+                         { label: 'Ninjaghini', value: 'NINJAGHINI' },
                         { label: 'Ninjet', value: 'NINJET' }
                       ]}
                       isDisabled={!hasTTSDonations}
@@ -198,6 +214,18 @@ export const ChatTTSSettings = ({
               </React.Fragment>
             ) : isPage('tts_tweaks') ? (
               <React.Fragment>
+                <SelectWrap paddingLeft={'20px'}>
+                  <Select
+                  menuPlacement='bottom'
+                  options = {getTTSVoicesList()}
+                  value={ttsVoice}
+                  isMulti={false}
+                  onValueChanged={(e: number) => {setTTSVoice(e)};}
+                  styles={botSelectStyles}
+
+                  />
+
+                </SelectWrap>
                 <PopupDialogInputWrapper>
                   <Slider header={getPhrase('tts_slider_volume')} value={ttsAmplitude} minValue={0} maxValue={200} onValueChanged={(e: number) => {
                     setTTSAmplitude(e);
@@ -222,6 +250,7 @@ export const ChatTTSSettings = ({
                       utter.volume = ttsAmplitude / 100;
                       utter.pitch = ttsPitch / 100;
                       utter.rate = ttsSpeed / 100;
+                      //utter.voice = ttsVoice;
                       utter.onend = () => {};
                       speechSynthesis.speak(utter);
                     }}

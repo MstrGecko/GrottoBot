@@ -37,6 +37,7 @@ export interface IConfig {
     'LEMON' | 'ICE_CREAM' | 'DIAMOND' | 'NINJAGHINI' | 'NINJET'
   >[];
   hasTTSDonationMessages?: boolean;
+  tts_Voice?: number;
 }
 
 export interface IEvent {

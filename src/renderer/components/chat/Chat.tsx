@@ -79,10 +79,10 @@ export const Chat = ({ chat }: { chat: {}[] }): React.ReactElement => {
   const [botAccount, setBotAccount] = React.useState<IMe>();
   const [streamerAccount, setStreamerAccount] = React.useState<IMe>();
   const [selectedSender, setSelectSender] = React.useState<IOption>({
-    value: 'bot',
+      value: 'bot',
     label: getPhrase('chat_select_send_bot')
   });
-
+  
   const updateSelectSender = (val: IOption) => {
     updateConfig({ selectedSender: val }).catch(console.error);
   };
