@@ -5,6 +5,7 @@ import {
   IChatObject,
   ISelectOption,
   ICommand,
+  IAlert,
   ITimer,
   IChange,
   IConfig
@@ -626,6 +627,314 @@ export class Command implements ICommand {
     });
   }
 }
+/* begin Alert Class
+/**
+ * @description is the Command class for all commands
+ */
+// tslint:disable-next-line: completed-docs
+export class Alert implements IAlert {
+  public id: string;
+  public name: string;
+  public permissions: ISelectOption<0 | 1 | 2 | 3 | 4>[];
+  public reply: string;
+  public cost: number;
+  public enabled: boolean;
+
+  constructor(
+    id: string,
+    name: string,
+    permissions: any[] = [],
+    reply: string = '',
+    cost: number = 0,
+    enabled: boolean = true
+  ) {
+    this.id = id;
+    this.name = name;
+    this.permissions = permissions;
+    this.reply = reply;
+    this.cost = cost;
+    this.enabled = enabled;
+  }
+
+  public toJSON() {
+    return {
+      id: this.id,
+      name: this.name,
+      permissions: this.permissions,
+      reply: this.reply,
+      cost: this.cost,
+      enabled: this.enabled
+    };
+  }
+
+  public enable() {
+    this.enabled = true;
+    this.save();
+  }
+
+  public disable() {
+    this.enabled = false;
+    this.save();
+  }
+
+  public getPermissionLevels() {
+    if(!!this.permissions.length) {
+      this.permissions = [];
+    }
+    try {
+      return this.permissions.map(item => item.value);
+    } catch(err) {
+      this.permissions = [];
+      this.save();
+      return [];
+    }
+    
+  }
+
+  /**
+   * @description saves the command to firestore
+   */
+  public save() {
+    rxUser
+      .pipe(
+        filter(x => !!x),
+        first()
+      )
+      .subscribe(user => {
+        if (!user) {
+          return;
+        }
+
+        firestore
+          .collection('users')
+          .doc(user.uid)
+          .collection('commands')
+          .doc(this.id)
+          .set(this.toJSON())
+          .catch(null);
+      });
+  }
+  /**
+   * @description runs the command by getting the config and sending the reply after parsing
+   */
+  public async run({
+    commandName,
+    variables,
+    message
+  }: {
+    commandName: string;
+    variables: string[];
+    message: IChatObject;
+  }) {
+    rxUsers.pipe(first()).subscribe(users => {
+      let user = users[message.sender.username];
+      if (!user) {
+        user = new User(
+          message.sender.id,
+          message.sender.displayname,
+          message.sender.username,
+          message.sender.avatar,
+          0,
+          0,
+          0,
+          message.role,
+          message.roomRole,
+          !!message.subscribing
+        );
+        user.save();
+      }
+
+      let level = user.getPermissionLevel();
+
+      const canPass = (): boolean => {
+        let permLevels = this.getPermissionLevels();
+
+        return permLevels.reduce((acc: false | true, item) => {
+          if (user.getPermissionLevel().includes(4) || acc === true) {
+            return true;
+          }
+          return user.getPermissionLevel().includes(item);
+        }, false);
+      };
+
+      if (!canPass() && this.getPermissionLevels().length > 0) {
+        sendMessageWithConfig(
+          `@${message.sender.displayname} you do not have permission to run this command!`
+        );
+
+        return;
+      }
+
+      const getParsedMessage = async ({
+        message: mMessage,
+        reply
+      }: {
+        message: IChatObject;
+        reply: string;
+      }): Promise<string> => {
+        return rxCustomVariables
+          .pipe(first())
+          .toPromise()
+          .then(async custom_variables => {
+            const replace = async (i = 0): Promise<string> => {
+              const keys = Object.keys(custom_variables);
+
+              return new Promise(res => {
+                if (i === keys.length) {
+                  // tslint:disable-next-line: no-void-expression
+                  return res(reply);
+                }
+                const key = keys[i];
+                const str = `{${key}}`;
+                const run = custom_variables[key].run;
+                if (new RegExp(str, 'gi').test(reply) && run) {
+                  return run(message, user).then((replacement: any) => {
+                    // tslint:disable-next-line: no-parameter-reassignment no-unsafe-any
+                    reply = reply.replace(new RegExp(str, 'gi'), replacement);
+
+                    // tslint:disable-next-line: no-void-expression
+                    return res(replace(i + 1));
+                  });
+                } else {
+                  // tslint:disable-next-line: no-void-expression
+                  return res(replace(i + 1));
+                }
+              });
+            };
+
+            return replace(0);
+          });
+      };
+
+      const parsedMessage = getParsedMessage({
+        message,
+        reply: this.reply
+      }).catch(null);
+      parsedMessage
+        .then(async msgToSend => {
+          if(msgToSend.includes('{user}')){
+            msgToSend = msgToSend.replace('{user}', message.sender.displayname);
+          }
+          let user = await getUserById(message.sender.username);
+          if(msgToSend.includes('{points}')){
+            msgToSend = msgToSend.replace('{points}', user?.points ? `${user?.points}` : '0');
+          }
+          if(msgToSend.includes('{lino}')){
+            let bank = await LINO.query.getAccountBank(message.sender.username);
+            msgToSend = msgToSend.replace('{lino}', bank.saving.amount);
+          }
+          if(msgToSend.includes('{streamer}')){
+            const firebaseUser = await rxUser.pipe(first()).toPromise();
+            if(!!firebaseUser) {
+              const streamerRef = await firestore.collection('configs').doc(firebaseUser.uid).get();
+              const streamer = streamerRef.data();
+              if(!!streamer) {
+                // tslint:disable-next-line: no-unsafe-any
+                msgToSend = msgToSend.replace('{streamer}', streamer.streamerDisplayName);
+              }
+            }
+          }
+          if(msgToSend.includes('{uptime}')) {
+            const config = await rxConfig.pipe(first()).toPromise();
+            const toHHMMSS = (secs: string) => {
+              const sec_num = parseInt(secs, 10);
+              const hours   = Math.floor(sec_num / 3600);
+              const minutes = Math.floor(sec_num / 60) % 60;
+              const seconds = sec_num % 60;
+          
+              return [hours,minutes,seconds]
+                  .map(v => v < 10 ? "0" + v : v)
+                  .filter((v,i) => v !== "00" || i > 0)
+                  .join(":");
+          }
+            if(!!config && config.streamerAuthKey) {
+              // tslint:disable-next-line: no-unsafe-any
+              const self = await getSelf(config.streamerAuthKey);
+              msgToSend = msgToSend.replace('{uptime}', toHHMMSS(`${(Date.now() - Number(self?.livestream?.createdAt))/1000}`));
+            }
+          }
+          sendMessageWithConfig(msgToSend);
+        })
+        .catch(null);
+    });
+  }
+
+  /**
+   * @description checks to see if a message triggers this command
+   */
+  public checkAndRun(message: IChatObject) {
+    if (!message.content) {
+      return false;
+    }
+
+    const name = `!${this.name.toLowerCase()}`;
+    if (!message.content.startsWith(name)) {
+      return false;
+    }
+
+    const variables = message.content.split(' ');
+    const commandName = variables.shift();
+
+    const sender = message.sender;
+    getUserById(sender.username)
+      .then(user => {
+        const mUser =
+          user ||
+          new User(
+            sender.username,
+            sender.displayname,
+            sender.username,
+            sender.avatar,
+            0,
+            0,
+            0,
+            message.role,
+            message.roomRole,
+            !!message.subscribing
+          );
+        if (this.cost === 0) {
+          return this.run({
+            commandName: commandName ? commandName : '',
+            variables,
+            message
+          }).catch(null);
+        }
+        if (mUser.points >= this.cost) {
+          mUser
+            .addPoints(-this.cost)
+            .then(() => {
+              this.run({
+                commandName: commandName ? commandName : '',
+                variables,
+                message
+              }).catch(null);
+            })
+            .catch(null);
+        } else {
+          sendMessageWithConfig(getPhrase('command_error_cost'));
+        }
+      })
+      .catch(null);
+  }
+
+  public delete() {
+    rxUser.pipe(first()).subscribe(authUser => {
+      if (!authUser) {
+        return;
+      }
+
+      firestore
+        .collection('users')
+        .doc(authUser.uid)
+        .collection('commands')
+        .doc(this.name)
+        .delete()
+        .catch(null);
+    });
+  }
+}
+
+
 
 // tslint:disable-next-line: completed-docs
 export class Timer implements ITimer {

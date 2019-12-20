@@ -12,7 +12,8 @@ import {
   FaQuoteRight,
   FaImage,
   FaImages,
-  FaCode
+  FaCode,
+  FaExclamationTriangle
 } from 'react-icons/fa';
 import { auth } from '../../helpers/firebase';
 import { createGlobalStyle } from 'styled-components';
@@ -215,16 +216,17 @@ const MenuComponent = (
             </NavIcon>
             <NavText>{getPhrase('menu_custom_variables')}</NavText>
           </NavItem>
-          <NavItem eventKey='/timers'>
+          
+          <NavItem eventKey='/alerts'>
             <NavIcon>
-              <FaClock
+              <FaExclamationTriangle
                 style={{
                   fontSize: '30px',
                   width: '30px',
                   height: '45px'
-                }}></FaClock>
+                }}></FaExclamationTriangle>
             </NavIcon>
-            <NavText>{getPhrase('menu_timers')}</NavText>
+            <NavText>{'Alerts'}</NavText>
           </NavItem>
           {/* <NavItem eventKey='/quotes'>
             <NavIcon>

@@ -148,6 +148,15 @@ export interface ICommand {
   enabled: boolean;
 }
 
+export interface IAlert {
+  id: string;
+  name: string;
+  permissions: any[];
+  reply: string;
+  cost: number;
+  enabled: boolean;
+}
+
 export interface ITimer {
   name: string;
   seconds: number;

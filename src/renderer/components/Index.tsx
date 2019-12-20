@@ -18,6 +18,7 @@ import {
 import { Menu } from './menu/Menu';
 import { Chat } from './chat/chat';
 import { LoginDlive } from './logindlive/loginDlive';
+import { Alerts } from './alerts/Alerts';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import { rxEventsFromMain } from '../helpers/eventHandler';
 import { Online, Offline } from 'react-detect-offline';
@@ -702,6 +703,7 @@ export const Main = () => {
   const renderThemes = () => <Themes />;
   const renderTesting = () => <Testing />;
   const renderTimers = () => <Timers />;
+  const renderAlerts = () => <Alerts />;
   const renderLoginDlive = () => (
     <LoginDlive streamer={!!config ? !config.streamerAuthKey : true} />
   );
