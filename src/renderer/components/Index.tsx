@@ -704,6 +704,7 @@ export const Main = () => {
   const renderTesting = () => <Testing />;
   const renderTimers = () => <Timers />;
   const renderAlerts = () => <Alerts />;
+  // const renderAlertsDisplay = () => <AlertsDisplay/>;
   const renderLoginDlive = () => (
     <LoginDlive streamer={!!config ? !config.streamerAuthKey : true} />
   );
@@ -782,6 +783,12 @@ export const Main = () => {
                           exact={true}
                           render={renderTimers}
                         />
+                        
+                        <Route
+                          path='/alerts'
+                          exact={true}
+                          render={renderAlerts}
+                        />
                         <Route
                           path='/themes'
                           exact={true}
@@ -792,7 +799,10 @@ export const Main = () => {
                           exact={true}
                           render={renderTesting}
                         />
-                        <Route path='/' exact={true} render={renderChat} />
+                        <Route 
+                        path='/' 
+                        exact={true} 
+                        render={renderChat} />
                       </div>
                     </React.Fragment>
                   ) : (
@@ -800,7 +810,10 @@ export const Main = () => {
                      * @description user is logged into firebase but not dlive
                      */
                     <React.Fragment>
-                      <Route path='/' exact={true} render={renderLoginDlive} />
+                      <Route 
+                      path='/' 
+                      exact={true} 
+                      render={renderLoginDlive} />
                     </React.Fragment>
                   )
                 ) : typeof isLoggedIn !== 'boolean' ? (
@@ -810,7 +823,9 @@ export const Main = () => {
                    * @description user is neither logged into firebase nor dlive
                    */
                   <React.Fragment>
-                    <Route path='/' render={renderLogin} />
+                    <Route 
+                    path='/' 
+                    render={renderLogin} />
                   </React.Fragment>
                 )}
               </HashRouter>

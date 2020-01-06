@@ -155,6 +155,9 @@ export interface IAlert {
   reply: string;
   cost: number;
   enabled: boolean;
+  sound: string;
+  image: string;
+  duration:number;
 }
 
 export interface ITimer {

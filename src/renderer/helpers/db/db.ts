@@ -629,7 +629,7 @@ export class Command implements ICommand {
 }
 /* begin Alert Class
 /**
- * @description is the Command class for all commands
+ * @description is the Alert class for all alerts....   currently a incomplete hardfork of comamnds
  */
 // tslint:disable-next-line: completed-docs
 export class Alert implements IAlert {
@@ -639,21 +639,30 @@ export class Alert implements IAlert {
   public reply: string;
   public cost: number;
   public enabled: boolean;
-
+  public sound: string;
+  public image: string;
+  public duration: number;
   constructor(
     id: string,
     name: string,
     permissions: any[] = [],
     reply: string = '',
     cost: number = 0,
-    enabled: boolean = true
-  ) {
+    enabled: boolean = true,
+    sound: string = '',
+    image: string = '',
+    duration: number = 0
+  
+    ) {
     this.id = id;
     this.name = name;
     this.permissions = permissions;
     this.reply = reply;
     this.cost = cost;
     this.enabled = enabled;
+    this.sound = sound;
+    this.image = image;
+    this.duration = duration;
   }
 
   public toJSON() {
@@ -663,7 +672,9 @@ export class Alert implements IAlert {
       permissions: this.permissions,
       reply: this.reply,
       cost: this.cost,
-      enabled: this.enabled
+      enabled: this.enabled,
+      sound: this.sound,
+      image: this.image
     };
   }
 
@@ -708,7 +719,7 @@ export class Alert implements IAlert {
         firestore
           .collection('users')
           .doc(user.uid)
-          .collection('commands')
+          .collection('alerts')
           .doc(this.id)
           .set(this.toJSON())
           .catch(null);
