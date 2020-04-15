@@ -1,3 +1,13 @@
+/**
+ * This File defines:
+ *  the base electron app,
+ *  opening the the Index.html at the root of the app path,
+ *  that the base app should insist on, and help you get logged into yoru CB account, and your Dlive acccount.
+ *  autoupdating, to keep the app current.
+ *  @MstrGecko Apr/1/20
+ */
+
+
 import { app, BrowserWindow, ipcMain } from 'electron';
 import * as path from 'path';
 import * as url from 'url';

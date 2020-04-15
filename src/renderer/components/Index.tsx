@@ -2,9 +2,9 @@ import { HashRouter, Route } from 'react-router-dom';
 import * as React from 'react';
 // tslint:disable-next-line: no-duplicate-imports
 import { useState, useEffect } from 'react';
-import { Login } from './login/login';
+import { Login } from './login/Login';
 import { rxUser } from '../helpers/rxUser';
-import { Background } from './background';
+import { Background } from './Background';
 import { TitleBar } from './TitleBar';
 import styled, { createGlobalStyle } from 'styled-components';
 import {
@@ -16,14 +16,14 @@ import {
   tap
 } from 'rxjs/operators';
 import { Menu } from './menu/Menu';
-import { Chat } from './chat/chat';
-import { LoginDlive } from './logindlive/loginDlive';
+import { Chat } from './chat/Chat';
+import { LoginDlive } from './logindlive/LoginDlive';
 import { Alerts } from './alerts/Alerts';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import { rxEventsFromMain } from '../helpers/eventHandler';
 import { Online, Offline } from 'react-detect-offline';
 
-import ThemeProvider, { ThemeContextProvider } from './themeContext';
+import ThemeProvider, { ThemeContextProvider } from './ThemeContext';
 
 import {
   dropDownBoxBackgroundColor,
@@ -38,13 +38,13 @@ import { rxEvents } from '../helpers/rxEvents';
 import { rxConfig, updateConfig } from '../helpers/rxConfig';
 import { rxChat, rxMessages } from '../helpers/rxChat';
 import { Users } from './users/Users';
-import { Themes } from './themes/themes';
+import { Themes } from './themes/Themes';
 import { start } from '../helpers/start';
 import { IRXEvent, IConfig, IEvent, ITimer, IGiftObject } from '..';
 import { rxCommands } from '../helpers/rxCommands';
 import { rxMe } from '../helpers/rxMe';
-import { Commands } from './commands/commands';
-import { Timers } from './timers/timers';
+import { Commands } from './commands/Commands';
+import { Timers } from './timers/Timers';
 import { rxTimers } from '../helpers/rxTimers';
 import {
   sendMessageWithConfig,
@@ -52,14 +52,14 @@ import {
 } from '../helpers/sendMessageWithConfig';
 import { Timer } from '../helpers/db/db';
 import { rxUsers, User } from '../helpers/db/db';
-import { Custom_Variables } from './custom_variables/custom_variables';
+import { Custom_Variables } from './custom_variables/Custom_variables';
 import {
   accentColor,
   accentHoverColor,
   popupButtonDisabledBackgroundColor
 } from '../helpers/appearance';
 import { rxLang } from '../helpers/rxLang';
-import { Loading } from './generic-styled-components/loading';
+import { Loading } from './generic-styled-components/Loading';
 import { rxDonations } from '../helpers/rxDonations';
 import { rxFollows } from '../helpers/rxFollows';
 import { rxGiftedSubs } from '../helpers/rxGiftedSubs';

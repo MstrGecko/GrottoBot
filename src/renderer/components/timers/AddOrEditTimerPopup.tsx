@@ -10,10 +10,10 @@ import {
   PopupDialogInputInfo,
   PopupDialogPadding,
   PopupButtonWrapper
-} from '../generic-styled-components/popupDialog';
+} from '../generic-styled-components/PopupDialog';
 import { FaTimes } from 'react-icons/fa';
 import { getPhrase } from '@/renderer/helpers/lang';
-import { Button } from '../generic-styled-components/button';
+import { Button } from '../generic-styled-components/Button';
 import { rxTimers } from '@/renderer/helpers/rxTimers';
 import { sendEvent } from '@/renderer/helpers/reactGA';
 

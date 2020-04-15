@@ -10,7 +10,7 @@ import {
   SelectWrap,
   botSelectStyles
 } from '../generic-styled-components/Select';
-import { ChatInput } from './chatInput';
+import { ChatInput } from './ChatInput';
 import { getPhrase } from '@/renderer/helpers/lang';
 import { FaUserAlt, FaMicrophone, FaCommentAlt } from 'react-icons/fa';
 import { Icon } from '../generic-styled-components/Icon';
@@ -18,7 +18,7 @@ import { ChatChangeAccounts } from './ChatChangeAccounts';
 import { rxStoredMessages } from '@/renderer/helpers/rxChat';
 
 import { reverse } from 'lodash';
-import { ChatMessage } from './chatMessage';
+import { ChatMessage } from './ChatMessage';
 import styled from 'styled-components';
 import { rxConfig, updateConfig } from '@/renderer/helpers/rxConfig';
 import { filter, distinctUntilChanged } from 'rxjs/operators';

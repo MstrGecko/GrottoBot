@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ThemeSet } from 'styled-theming';
-import { Toggle, Nav, NavItem, NavIcon, NavText, SideNav } from './styledNav';
+import { Toggle, Nav, NavItem, NavIcon, NavText, SideNav } from './StyledNav';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import {
   FaComments,

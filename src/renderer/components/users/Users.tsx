@@ -24,12 +24,12 @@ import { getPhrase } from '@/renderer/helpers/lang';
 import {
   PopupDialogBackground,
   PopupDialog
-} from '../generic-styled-components/popupDialog';
+} from '../generic-styled-components/PopupDialog';
 import { Icon } from '../generic-styled-components/Icon';
-import { UserPopup } from './userPoup';
-import { UsersDeleteAll } from './usersDeleteAll';
-import { DeleteUserPopup } from './deleteUserPopup';
-import { UserSettingsPopup } from './usersSettingsPopup';
+import { UserPopup } from './UserPoup';
+import { UsersDeleteAll } from './UsersDeleteAll';
+import { DeleteUserPopup } from './DeleteUserPopup';
+import { UserSettingsPopup } from './UsersSettingsPopup';
 
 import {
   listItemColor,

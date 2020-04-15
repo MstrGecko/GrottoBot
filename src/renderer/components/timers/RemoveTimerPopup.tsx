@@ -6,10 +6,10 @@ import {
   PopupDialogExitIcon,
   PopupDialogPadding,
   PopupButtonWrapper
-} from '../generic-styled-components/popupDialog';
+} from '../generic-styled-components/PopupDialog';
 import { FaTimes } from 'react-icons/fa';
 import { getPhrase } from '@/renderer/helpers/lang';
-import { Button } from '../generic-styled-components/button';
+import { Button } from '../generic-styled-components/Button';
 interface IProps {
   timer: Timer;
   closePopup: Function;

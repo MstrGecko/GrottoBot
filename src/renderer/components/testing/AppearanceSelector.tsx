@@ -5,8 +5,8 @@ import { useState, useEffect } from 'react';
 
 import { rxConfig, updateConfig } from '@/renderer/helpers/rxConfig';
 
-import { ThemeThumbnail } from './themeThumbnail';
-import { useTheme } from '../themeContext';
+import { ThemeThumbnail } from './ThemeThumbnail';
+import { useTheme } from '../ThemeContext';
 import { IConfig } from '@/renderer';
 import { selectorColor } from '@/renderer/helpers/appearance';
 import { sendEvent } from '@/renderer/helpers/reactGA';

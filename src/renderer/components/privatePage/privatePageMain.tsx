@@ -11,7 +11,7 @@ import styled from 'styled-components';
 import { Tracking } from '../tracking/tracking';
 import { firestore, firebase } from '@/renderer/helpers/firebase';
 import { rxUser } from '@/renderer/helpers/rxUser';
-import { Loading } from '../generic-styled-components/loading';
+import { Loading } from '../generic-styled-components/Loading';
 import { useIsPremium } from '@/renderer/helpers/useIsPremium';
 import { RestrictedPopup } from './restrictedPopup';
 

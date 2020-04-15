@@ -12,7 +12,7 @@ import {
   FaBug,
   FaAdjust
 } from 'react-icons/fa';
-import { useTheme } from './themeContext';
+import { useTheme } from './ThemeContext';
 
 import {
   titleBarTextColor,

@@ -21,8 +21,8 @@ import {
   FaToggleOn,
   FaToggleOff
 } from 'react-icons/fa';
-import { AddOrEditCommandPopup } from './addOrEditCommandPopup';
-import { PopupDialogBackground } from '../generic-styled-components/popupDialog';
+import { AddOrEditCommandPopup } from './AddOrEditCommandPopup';
+import { PopupDialogBackground } from '../generic-styled-components/PopupDialog';
 import { RemoveCommandPopup } from './RemoveCommandPopup';
 
 import {

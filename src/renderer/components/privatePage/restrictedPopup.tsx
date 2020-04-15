@@ -5,8 +5,8 @@ import {
   PopupDialog,
   PopupDialogText,
   PopupButtonWrapper
-} from '../generic-styled-components/popupDialog';
-import { Button } from '../generic-styled-components/button';
+} from '../generic-styled-components/PopupDialog';
+import { Button } from '../generic-styled-components/Button';
 import { getPhrase } from '@/renderer/helpers/lang';
 
 /**

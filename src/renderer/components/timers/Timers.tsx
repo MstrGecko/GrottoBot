@@ -21,9 +21,9 @@ import {
   FaToggleOn,
   FaToggleOff
 } from 'react-icons/fa';
-import { AddOrEditTimerPopup } from './addOrEditTimerPopup';
-import { PopupDialogBackground } from '../generic-styled-components/popupDialog';
-import { RemoveTimerPopup } from './removeTimerPopup';
+import { AddOrEditTimerPopup } from './AddOrEditTimerPopup';
+import { PopupDialogBackground } from '../generic-styled-components/PopupDialog';
+import { RemoveTimerPopup } from './RemoveTimerPopup';
 
 import {
   listItemColor,

@@ -10,7 +10,7 @@ import { Section, SectionTitle } from '../generic-styled-components/Section';
 
 import { AppearanceSelector, AppearanceItem } from './AppearanceSelector';
 
-import { useTheme } from '../themeContext';
+import { useTheme } from '../ThemeContext';
 
 import { themeData } from '@/renderer/helpers/rxTheme';
 
