@@ -79,5 +79,20 @@ rendererConfig.plugins = [
     template: path.resolve(__dirname, './public/index.html')
   })
 ];
+/**
+ * An Attempt to create a production webserver on 3030
+ * @MstrGecko Apr 12 2020
 
-module.exports = [mainConfig, rendererConfig];
+const ttsConfig = lodash.cloneDeep(commonConfig);
+ttsConfig.entry = './src/renderer/components/Chat.tsx';
+ttsConfig.output.filename = 'renderer.bundle.js';
+ttsConfig.devServer = {
+  contentBase: './dist',
+  port: '3030',
+};
+
+
+*/
+
+
+ module.exports = [mainConfig, rendererConfig];

@@ -16,7 +16,7 @@ import { filter } from 'rxjs/operators';
 import { autoUpdater } from 'electron-updater';
 import * as log from 'electron-log';
 import { IEvent } from '../renderer';
-
+import * as http from 'http';
 process.on('uncaughtException', function(error) {
   // Handle the error
   log.debug(error);
