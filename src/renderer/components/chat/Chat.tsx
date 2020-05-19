@@ -25,7 +25,7 @@ import { filter, distinctUntilChanged } from 'rxjs/operators';
 import Select from 'react-select';
 import { getSelf } from '@/renderer/helpers/dlive/getSelf';
 import { shell } from 'electron';
-import { IConfig, IMe, IChatObject, IOption, IGiftObject } from '@/renderer';
+import { IConfig, IMe, IChatObject, IOption, IGiftObject, IFollowObject, IHostObject } from '@/renderer';
 import { ChatTTSSettings } from './chatTTSSettings';
 
 import { accentColor } from '@/renderer/helpers/appearance';

@@ -20,6 +20,7 @@ export const rxChat: Observable<Partial<IChatObject>> = rxEvents.pipe(
         data[0].type === 'Delete' ||
         data[0].type === 'Subscription' ||
         data[0].type === 'Follow' ||
+       // data[0].type === 'Host' ||
         data[0].type === 'Gift'
         ? true
         : false

@@ -31,6 +31,12 @@ log.info('App starting...');
 
 const rxEventHandler = new BehaviorSubject({ name: 'start', data: {} });
 
+
+
+
+
+
+
 /**
  * @description creates the main electron window, which spawns the react project
  */
@@ -188,10 +194,171 @@ function createWindow(): void {
   });
 }
 
+
+function serveWindow(): void {
+  // Create the browser window.
+  mainWindow = new BrowserWindow({
+    height: 600,
+    width: 800,
+    autoHideMenuBar: true,
+    frame: false,
+    webPreferences: {
+      webSecurity: false,
+      devTools: true
+    },
+    icon: path.join(__dirname, '.icon-ico/icon.ico')
+  });
+
+  // and load the index.html of the app.
+  mainWindow.loadURL(
+    url.format({
+      pathname: path.join(__dirname, './index.html'),
+      protocol: 'file:',
+      slashes: true
+    })
+  );
+  let loginWindow: BrowserWindow | null | undefined = null;
+
+  const sendToWin = (name: string, data: { [id: string]: any }) => {
+    if (!mainWindow) {
+      return;
+    }
+    try {
+      mainWindow.webContents.send('event', { name, data });
+    } catch (err) {
+      log.debug(err);
+    }
+  };
+
+  ipcMain.on('event', (event: any, data: IEvent) => {
+    rxEventHandler.next({ data: data.data, name: data.name });
+  });
+
+  const oauthWindowStart = (ifStreamer: boolean) => {
+    if (!mainWindow) {
+      return;
+    }
+    if (!!loginWindow) {
+      try {
+        loginWindow.close();
+        loginWindow = null;
+        loginWindow = undefined;
+      } catch (err) {
+        log.debug(err);
+      }
+    }
+
+    loginWindow = new BrowserWindow({
+      parent: mainWindow,
+      frame: false
+    });
+    loginWindow.webContents.on('did-finish-load', () => {
+      if (!loginWindow) {
+        return;
+      }
+      const injectJs = `function addStyleString(str) {
+        var node = document.createElement('style');
+        node.innerHTML = str;
+        document.body.appendChild(node);
+    }
+    addStyleString('.container{ max-height: 100vh !important; overflow-y: auto !important;height:min-content;display:block;}.login-card{width: 712px !important}.author-section{display:flex; flex-wrap: wrap;}.author-section > p.author-section-item {flex:1;min-width: 200px;}');
+    let but = document.getElementsByClassName('login-form-button')[0];
+    let first = true;
+    but.addEventListener('click', (e)=>{
+      if(first) {but.setAttribute('onclick', '()=>{}');return first = false; setTimeout(() => {first = true}, 7000)};
+      e.stopPropagation();
+    })`;
+      loginWindow.webContents.executeJavaScript(injectJs).catch(err => null);
+    });
+    loginWindow.loadURL(
+      `https://dlive.tv/o/authorize?client_id=2582484581&redirect_uri=https://creativebuilds.io/oauth/dlive&response_type=code&scope=identity%20chat:write%20chest:write%20comment:write%20email:read%20emote:read%20emote:write%20moderation:read%20moderation:write%20relationship:read%20relationship:write%20streamtemplate:read%20streamtemplate:write%20subscription:read%20subsetting:write%20&state=http://localhost:6942/oauth`
+    );
+
+    loginWindow.webContents.on(
+      'did-fail-load',
+      (mEvent, e, desc, nUrl, isMainFrame) => {
+        try {
+          if (!loginWindow || !mainWindow) {
+            return;
+          }
+          if (nUrl.startsWith('http://localhost')) {
+            const auth = nUrl.split('?auth=')[1];
+            if (!auth) {
+              loginWindow.close();
+              oauthWindowStart(ifStreamer);
+            } else {
+              // We got auth string boiiiiss time to set it on the
+              sendToWin(ifStreamer ? 'newAuthKeyStreamer' : 'newAuthKey', {
+                key: auth
+              });
+              loginWindow.close();
+            }
+          }
+        } catch (err) {
+          log.debug(err);
+        }
+      }
+    );
+
+    loginWindow.webContents.on('will-navigate', (event, mUrl) => {
+      if (!loginWindow || !mainWindow) {
+        return;
+      }
+      if (mUrl.startsWith('http://localhost')) {
+        const auth = mUrl.split('?auth=')[1];
+        if (!auth) {
+          loginWindow.close();
+          oauthWindowStart(ifStreamer);
+          loginWindow = undefined;
+        } else {
+          // We got auth string boiiiiss time to set it on the
+          mainWindow.webContents.send('newAuthKey', auth);
+          loginWindow.close();
+          loginWindow = undefined;
+        }
+      }
+    });
+  };
+
+  rxEventHandler
+    .pipe(filter(x => x.name === 'openLogin'))
+    .subscribe((event: IEvent) => {
+      oauthWindowStart(false);
+    });
+  rxEventHandler
+    .pipe(filter(x => x.name === 'openLoginStreamer'))
+    .subscribe((event: IEvent) => {
+      oauthWindowStart(true);
+    });
+
+  // Emitted when the window is closed.
+  mainWindow.on('closed', () => {
+    // Dereference the window object, usually you would store windows
+    // in an array if your app supports multi windows, this is the time
+    // when you should delete the corresponding element.
+    mainWindow = null;
+  });
+  log.debug('Checking for downloads');
+  setInterval(() => {
+    autoUpdater.checkForUpdates().catch(err => {
+      log.debug(err);
+    });
+  }, 1000 * 60 * 30);
+  autoUpdater.checkForUpdates().catch(err => {
+    log.debug(err);
+  });
+}
+
+function startWindows():void {
+  createWindow();
+  //serveWindow();  
+};
+
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+app.on('ready', startWindows);
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {

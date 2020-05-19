@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { ThemeSet } from 'styled-theming';
-import { IChatColors, IChatObject, IGiftObject } from '@/renderer';
+import { IChatColors, IChatObject, IGiftObject, IFollowObject, IHostObject } from '@/renderer';
 import { getPhrase } from '@/renderer/helpers/lang';
 import { Icon } from '../generic-styled-components/Icon';
 import { FaEyeSlash, FaEye } from 'react-icons/fa';
@@ -109,6 +109,16 @@ const GiftContent = styled.div`
   padding-right: 15px;
   word-wrap: break-word;
 `;
+const HostContent = styled.div`
+  flex: 1;
+  max-height: 75px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 17px;
+  padding-left: 15px;
+  padding-right: 15px;
+  word-wrap: break-word;
+`;
 const ChatSticker = styled.img`
   height: 48px;
   overflow: hidden;
@@ -136,7 +146,7 @@ export const ChatMessage = ({
   },
   highlighted
 }: {
-  message: IChatObject | IGiftObject;
+  message: IChatObject | IGiftObject | IFollowObject |IHostObject ;
   colors?: IChatColors;
   highlighted: boolean;
 }) => {
@@ -177,6 +187,8 @@ export const ChatMessage = ({
     } else if (message.type === 'Follow') {
       return true;
     } else if (message.type === 'Subscription') {
+      return true;
+    } else if (message.type === 'Host') {
       return true;
     } else if (message.type === 'Message') {
       return false;
@@ -254,7 +266,15 @@ export const ChatMessage = ({
     }
     return false;
   };
-
+  const isHosting = () => {
+    if (!message.type) {
+      return false;
+    }
+    if (message.type === 'Host') {
+      return true;
+    }
+    return false;
+  };
   const isFollow = () => {
     if (!message.type) {
       return false;
@@ -327,8 +347,14 @@ export const ChatMessage = ({
         <ChatSticker src={stickerUrl()} hidden={false} />
       </StickerContent>
       <FollowContent hidden={!isFollow()}>
-        {getPhrase('just_followed')}
+        {//getPhrase('just_followed')
+        'Just Followed!'}
       </FollowContent>
+      <HostContent hidden={!isHosting()}>
+
+          {'BLARGH!!!'}
+
+      </HostContent>
       <GiftContent hidden={!isGift()}>{eventMessage()}</GiftContent>
       {message.deleted ? (
         <Icon

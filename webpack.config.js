@@ -84,7 +84,7 @@ rendererConfig.plugins = [
  * @MstrGecko Apr 12 2020
 
 const ttsConfig = lodash.cloneDeep(commonConfig);
-ttsConfig.entry = './src/renderer/components/Chat.tsx';
+ttsConfig.entry = './src/renderer/external.tsx';
 ttsConfig.output.filename = 'renderer.bundle.js';
 ttsConfig.devServer = {
   contentBase: './dist',

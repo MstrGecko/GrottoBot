@@ -93,7 +93,8 @@ export interface IChatObject {
     | 'Message'
     | 'Gift'
     | 'GiftSubReceive'
-    | 'Delete';
+    | 'Delete'
+    | 'Host';
   id: string;
   content?: string;
   createdAt: string;
@@ -117,10 +118,24 @@ export interface IGiftObject extends IChatObject {
   recentCount: number;
 }
 /**
- * IFollow Object currently looks like a needless wrapper on IChatObject 
+ * IFollowObject currently looks like a nearly needless wrapper on IChatObject 
  * @Mstrgecko Apr 4 2020
  */
-export interface IFollowObject extends IChatObject {}
+export interface IFollowObject extends IChatObject {
+  type: 'Follow';
+}
+
+
+/**
+ * IHostObject Defines a IChatobject with the required additions to check hosted viewer ccount.  
+ * @Mstrgecko May 7 2020
+ */
+
+export interface IHostObject extends IChatObject {
+  type: 'Host'; 
+  viewer: number;
+}
+
 /**
  * ISubObject defines how many months a subscriber has subbed.
  * @Mstrgecko Apr 4 2020
