@@ -21,6 +21,7 @@ const AppearanceWrapper = styled.div`
 /**
  * @description displays the Themes page
  */
+
 export const Testing = (): React.ReactElement => {
   const [loading, setLoading] = React.useState(false);
   const [name, setName] = React.useState('Loading');
@@ -51,12 +52,12 @@ export const Testing = (): React.ReactElement => {
         console.log(idTokenResult.claims, 'claims');
       });
   }, []);
-
+  
   return (
-    <PrivatePageMain>
+    <PageMain>
       <Tracking path='/testing' />
       <PageTitle>Testing</PageTitle>
       <PageContent>Some content here</PageContent>
-    </PrivatePageMain>
+    </PageMain>
   );
 };

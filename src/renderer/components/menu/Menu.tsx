@@ -13,7 +13,8 @@ import {
   FaImage,
   FaImages,
   FaCode,
-  FaExclamationTriangle
+  FaExclamationTriangle,
+  FaRadiationAlt
 } from 'react-icons/fa';
 import { auth } from '../../helpers/firebase';
 import { createGlobalStyle } from 'styled-components';
@@ -247,14 +248,14 @@ const MenuComponent = (
             </NavIcon>
             <NavText>{getPhrase('menu_themes')}</NavText>
           </NavItem>
-          {/* <NavItem eventKey='/testing'>
+          { <NavItem eventKey='/testing'>
             <NavIcon>
-              <FaImage
+              <FaRadiationAlt
                 style={{ fontSize: '30px', width: '30px', height: '45px' }}
-              ></FaImage>
+              ></FaRadiationAlt>
             </NavIcon>
-            <NavText>{getPhrase('menu_themes')}</NavText>
-          </NavItem> */}
+            <NavText>{'Experimental Testing'/*getPhrase('menu_themes')*/}</NavText>
+          </NavItem> }
           <NavItem eventKey='/logout'>
             <NavIcon>
               <FaSignOutAlt
