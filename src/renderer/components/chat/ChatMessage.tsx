@@ -294,7 +294,14 @@ export const ChatMessage = ({
     }
     return false;
   };
-
+  const partyOf=() =>{
+    if (message.type !== 'Host'){
+      return false;
+    } else{
+      return `Now Seating ${message.sender}: Party of ${message.Viewer}`
+    }
+    
+  }
   const isChat = () => {
     if (!message.content) {
       return false;
@@ -329,10 +336,11 @@ export const ChatMessage = ({
       highlighted={highlighted}
       isEvent={isEvent()}>
       {message.deleted && !deletedButShow ? null : (
-        <ChatUsername>{message.sender.displayname}</ChatUsername>
+        <ChatUsername hidden={!isHosting()}>{message.sender.displayname}</ChatUsername>
       )}
       {message.deleted && !deletedButShow ? null : (
-        <ProfilePicture
+        <ProfilePicture 
+          hidden={!isHosting()}
           shadowColor={determineBoxShadow()}
           src={message.sender.avatar}
         />
@@ -351,9 +359,7 @@ export const ChatMessage = ({
         'Just Followed!'}
       </FollowContent>
       <HostContent hidden={!isHosting()}>
-
-          {'BLARGH!!!'}
-
+          {partyOf()}
       </HostContent>
       <GiftContent hidden={!isGift()}>{eventMessage()}</GiftContent>
       {message.deleted ? (

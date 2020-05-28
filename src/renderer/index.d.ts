@@ -105,6 +105,7 @@ export interface IChatObject {
   __typename: string;
   ids?: string[];
   deleted?: boolean;
+  Viewer: number;
 }
 /**
  * IGiftObject defines a ChatObject containing a Gift. Currently Specific to DLive  
