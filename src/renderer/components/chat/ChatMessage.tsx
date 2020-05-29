@@ -336,11 +336,11 @@ export const ChatMessage = ({
       highlighted={highlighted}
       isEvent={isEvent()}>
       {message.deleted && !deletedButShow ? null : (
-        <ChatUsername hidden={!isHosting()}>{message.sender.displayname}</ChatUsername>
+        <ChatUsername hidden={isHosting()}>{message.sender.displayname}</ChatUsername>
       )}
       {message.deleted && !deletedButShow ? null : (
         <ProfilePicture 
-          hidden={!isHosting()}
+          hidden={isHosting()}
           shadowColor={determineBoxShadow()}
           src={message.sender.avatar}
         />
