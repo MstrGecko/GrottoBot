@@ -1,8 +1,8 @@
-# CreativeBot, A DLive Chat Bot
+# GrottoBot, A DLive Chat Bot
 
 ## Are you a developer?
 
-If you wish to be added to this list and help develop the bot, check out the [Developer Getting Started](https://github.com/CreativeBuilds/creative-bot/wiki/New-Developer-Setup) page!
+If you wish to be added to this list and help develop the bot, check out the [Developer Getting Started](https://github.com/MstrGecko/Grottobot/wiki/New-Developer-Setup) page!
 
 ### Description
 
@@ -17,12 +17,19 @@ Doesn't have a feature you want? Do you know how to code/know someone who knows?
 
 #### Developer Note
 
-This bot is made by [CreativeBuilds](https://dlive.tv/creativebuilds) _(Owner)_ and [Oblivifrek](https://dlive.tv/Oblivifrek) _(Contributor)_
+This  bot is currently being maintained by [MstrGecko](https://d.live/MstrGecko) _(Project Lead)_and [RhythmicCarnage](https://d.live/RhythicCarnage) _(Documentation Lead and Contributor)_
+
+This bot was forked from a bot made by [CreativeBuilds](https://dlive.tv/creativebuilds) _(Owner)_ [Oblivifrek](https://dlive.tv/Oblivifrek) _(Contributor)_ and [MstrGecko] (https://d.live/MstrGecko) _(Contributor)_
+
+
+
+
+____________________________________________________________________________-
+____________________________________________________________________________-
+
+
+
 
 ### Installation Process
 
-1.  Download the latest release [here](https://github.com/CreativeBuilds/creative-bot/releases)
-2.  Run the exe and let it install
-3.  After the install is completed and you launch the application, you will have to create a _CreativeBot_ account, this is used to back up all of your info, if you swap to another account or something happens to your computer and you need to recover your data. In the future this will also be used to login to a web version of the app to allow for easier use.
-4.  Once you have created an account, login with DLive **NOTE: If you made your account without an email/password directly with dlive then you will need to head to the [settings page](https://dlive.tv/s/settings) and make sure you set an email and password!**
-5.  When you're signed in through dlive, you are free to explore the bot! If you need any help you can join [this discord](https://discord.gg/2DGaWDW) where we provide support or message me directly CreativeBuilds#0001
+GrottoBot is undergoing transition and is not yet ready for non-developer consumption. When that changes, so will this section.
