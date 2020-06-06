@@ -17,7 +17,7 @@ Doesn't have a feature you want? Do you know how to code/know someone who knows?
 
 #### Developer Note
 
-This  bot is currently being maintained by [MstrGecko](https://d.live/MstrGecko) _(Project Lead)_and [RhythmicCarnage](https://d.live/RhythicCarnage) _(Documentation Lead and Contributor)_
+This  bot is currently being maintained by [MstrGecko](https://d.live/MstrGecko) _(Project Lead)_ and [RhythmicCarnage](https://d.live/RhythicCarnage) _(Documentation Lead and Contributor)_
 
 This bot was forked from a bot made by [CreativeBuilds](https://dlive.tv/creativebuilds) _(Owner)_ [Oblivifrek](https://dlive.tv/Oblivifrek) _(Contributor)_ and [MstrGecko] (https://d.live/MstrGecko) _(Contributor)_
 
